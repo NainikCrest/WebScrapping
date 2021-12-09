@@ -1,0 +1,35 @@
+{
+  "name": "webscrapping",
+  "version": "1.0.0",
+  "description": "A web-scrapper with NodeJs-puppeteer for facebook-AD",
+  "main": "server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "nodemon": "nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "NodeJs",
+    "Express",
+    "rest",
+    "api",
+    "Pupperteer",
+    "FaceBook-ADs",
+    "WebScrapping",
+    "dynamic"
+  ],
+  "author": "Nainik Mehta",
+  "license": "ISC",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-validation": "^3.0.8",
+    "helmet": "^4.6.0",
+    "morgan": "^1.10.0",
+    "puppeteer": "^12.0.1",
+    "winston": "^3.3.3"
+  }
+}
