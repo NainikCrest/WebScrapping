@@ -3,51 +3,82 @@ const puppeteer = require("puppeteer");
 const fs = require("fs/promises");
 
 /**
- * @api {post} /user/register
- * @apiDescription Creates a user
- * @apiGroup Auth / User
+ * @api {get} /faceBookAd/
+ * @apiDescription Get Facebook Ad's List Data
+ * @apiGroup facebookAd /
  *
- * @apiSuccess (200) {Object} data the created user
+ * @apiSuccess (200) {Object} data Of Facebook Ad Page
  * @apiPermission Any
  * @apiVersion 1.0.0 (/api/v1/)
  */
 exports.faceBookAd = async (req, res, next) => {
   try {
+    //  Browser Configuration to launch site
     const browser = await puppeteer.launch({
-      headless: false,
+      headless: false, // To display actions
+      devtools: true, // To enable devtools
+      defaultViewport: false, // To set screen size in launch
+      // userDataDir: "./temp", // To caputure the caches
+      // executablePath:
+      //   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", // To execute the link in given path instead of chromiun as default
     });
 
+    // Rendering Page
     const page = await browser.newPage();
-    // await page.goto("https://learnwebcode.github.io/practice-requests/");
-    await page.goto(req.query.link, { waitUntil: "networkidle0" });
-    // await Promise.all([page.waitForNavigation()]);
+    await page.goto(req.query.link, {
+      waitUntil: "networkidle0",
+      // waitUntil: "load",
+    });
 
-    // const info = await page.$eval("#o0aczdgd > span", (el) => el.textContent);
-    // console.log(info);
-
-    const AdIds = await page.$$eval(
-      "div._9cb_ > div > div > div.jdijf8jp.i0ppjblf.jvozsxb1.mqteepqw.b8ykynyv.egkesoaz.qi2u98y8 > div > div.a53abz89.rgsc13q7.rwb8dzxj.hv94jbsx > div.m8urbbhe.fv962s72 > div.o0aczdgd > div.rxo4gu2c.fij28k4b > span",
-      (span) => {
-        return span.map((span) => span.innerHTML);
-      }
+    const productHandlers = await page.$$(
+      "._8n-x > div._8n_0 > div._9ccv._9raa"
     );
 
-    await fs.writeFile("AdIds.txt", AdIds.join("\r\n"));
-    // const photos = await page.$$eval(
-    //   "div._9cb_ > div > div > div > div > div > div > a > div > img",
-    //   (imgs) => {
-    //     return imgs.map((img) => img.src);
-    //   }
-    // );
-    // //
-    // const names = await page.evaluate(() => {
-    //   return Array.from(
-    //     document.querySelectorAll(".rxo4gu2c fij28k4b > span")
-    //   ).map((x) => x.textContent);
-    // });
+    const ADList = [];
+    for (let indexP = 0; indexP < productHandlers.length; indexP++) {
+      const producthandle = productHandlers[indexP];
+      let title = null;
+      const tempObj = {};
+      try {
+        title = await page.evaluate(
+          (el) =>
+            el.querySelector(
+              "div > div._9ccv._9raa > div > div._9guv._9rab > div > div > span"
+            ).textContent,
+          producthandle
+        );
+        tempObj.title = title;
+        const contentHandlers = await page.$$("div > div._9cb_", producthandle);
+        const contentArr = [];
+        const element = contentHandlers[indexP];
+        let ids = [];
+        let status = [];
+        try {
+          ids = await element.$$eval(
+            "div > div > div.jdijf8jp.i0ppjblf.jvozsxb1.mqteepqw.b8ykynyv.egkesoaz.qi2u98y8 > div > div.a53abz89.rgsc13q7.rwb8dzxj.hv94jbsx > div > div.o0aczdgd > div > span",
+            (idsEle) => {
+              return idsEle.map((idEl) => idEl.textContent);
+            }
+          );
+        } catch (error) {}
+        try {
+          status = await element.$$eval(
+            "div > div > div.jdijf8jp.i0ppjblf.jvozsxb1.mqteepqw.b8ykynyv.egkesoaz.qi2u98y8 > div > div.a53abz89.rgsc13q7.rwb8dzxj.hv94jbsx > div > span.qku1pbnj.jdeypxg0.gr1kmz5o.and5a8ls.te7ihjl9.svz86pwt.a53abz89.nxqif72j",
+            (statusEle) => {
+              return statusEle.map((statusEl) => statusEl.textContent);
+            }
+          );
+        } catch (error) {}
+        for (let index = 0; index < ids.length; index++) {
+          const element = ids[index];
+          const content = { id: element.split(" ")[1], status: status[index] };
+          contentArr.push(content);
+        }
+        tempObj.content = contentArr;
+        ADList.push({ ...tempObj });
+      } catch (error) {}
+    }
 
-    // await fs.writeFile("names.txt", names.join("\r\n"));
-    // console.log(names);
     // await page.screenshot({
     //   path: "ss.png",
     //   fullPage: true,
@@ -55,7 +86,7 @@ exports.faceBookAd = async (req, res, next) => {
 
     await browser.close();
     return res.status(OK).json({
-      data: {},
+      data: ADList,
       code: OK,
       message: RECORD_FOUND,
     });
