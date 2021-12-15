@@ -173,3 +173,35 @@ exports.faceBookAd = async (req, res, next) => {
     return next(error);
   }
 };
+
+async function getData() {
+  const response = await fetch(
+    "https://www.facebook.com/ads/library/async/search_ads/?forward_cursor=AQHRwI_67Fa9T2W9pPypQtMGB2o3_xXPjVv9NaZ5mFhY0gRJvheE7WdXcyhRYFySriZt&session_id=f4bf5d48-489c-44d3-aea8-686303d9e968&collation_token=7279be42-34f5-4674-b83b-186ded913914&count=22&active_status=all&ad_type=all&countries[0]=US&view_all_page_id=2262210287122770&media_type=all&search_type=page",
+    {
+      headers: {
+        accept: "*/*",
+        "accept-language": "en-US,en;q=0.9",
+        "cache-control": "no-cache",
+        "content-type": "application/x-www-form-urlencoded",
+        pragma: "no-cache",
+        "sec-ch-ua":
+          '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"Windows"',
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "x-fb-lsd": "AVrP_pDYIC4",
+        cookie:
+          "datr=VtqtYdxzncITnkRUFlPKBqlo; sb=UQuvYa67_bfD0nUFW9wVVp_G; usida=eyJ2ZXIiOjEsImlkIjoiQXI0MXBpZTFpZ2Nzam4iLCJ0aW1lIjoxNjM5Mzg0OTM0fQ%3D%3D; dpr=1; fr=007FnIBNyEAapEDM4..BhpK8e.9Y.AAA.0.0.BhuJ2s.AWX5qkrKWiY; wd=859x937",
+        Referer:
+          "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=US&view_all_page_id=2262210287122770&search_type=page&media_type=all",
+        "Referrer-Policy": "origin-when-cross-origin",
+      },
+      body: "__user=0&__a=1&__dyn=7xeUmBz8fXgydwn8K2WnFwRwCwgE98nwgU6C4UKewSAwHxW4E7SezobohwVwgU2lwUx60Vo1upEK12wcG0KEswIwuo662y11xmfz81sbzo5-1ywXwsU9k2C2218wc61uBxi2a48O0zE-7E5i3e4U3mxOu2S2W2K7o721uwa-58G2q0gq2S3qazo11E&__csr=&__req=8&__hs=18976.BP%3ADEFAULT.2.0.0.0.&dpr=1&__ccg=MODERATE&__rev=1004867794&__s=ugjivd%3A1dic7o%3As6f1ms&__hsi=7041795773567997401-0&__comet_req=0&lsd=AVrP_pDYIC4&jazoest=2901&__spin_r=1004867794&__spin_b=trunk&__spin_t=1639545842&__jssesw=1",
+      method: "POST",
+    }
+  );
+  const data = response.json();
+  console.log(data);
+}
