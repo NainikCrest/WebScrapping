@@ -90,7 +90,7 @@ exports.faceBookAd = async (req, res, next) => {
     // await page.pdf({ path: "page.pdf" });
     if (headless) await page.pdf({ path: "capture.pdf", format: "A0" });
 
-    // await browser.close();
+    await browser.close();
     return res.status(OK).json({
       data: ADList,
       code: OK,
@@ -130,8 +130,8 @@ exports.faceBookAdForm = async (req, res, next) => {
       // waitUntil: "load",
     });
 
-    await page.type("#fullname", "John Showme");
-    await page.type("#email", "johnshowme@alo2.com");
+    await page.type("#fullname", req.query.name);
+    await page.type("#email", req.query.email);
     await page.screenshot({
       path: "formFill.png",
       fullPage: true,
