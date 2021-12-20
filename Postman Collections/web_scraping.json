@@ -1,0 +1,319 @@
+{
+  "info": {
+    "_postman_id": "a6cda290-fa94-44f9-8e91-9e281c65a97a",
+    "name": "WebScrapper",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "FaceBook ADS list",
+      "_postman_id": "aac9bc92-7778-4841-a181-a5a1da4f6b16",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}api/v1/faceBookAd/?link=https://www.facebook.com/ads/library/?active_status=all%26ad_type=all%26country=US%26view_all_page_id=2262210287122770%26search_type=page%26media_type=all",
+          "host": [
+            "{{url}}api"
+          ],
+          "path": [
+            "v1",
+            "faceBookAd",
+            ""
+          ],
+          "query": [
+            {
+              "key": "link",
+              "value": "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=US&view_all_page_id=2262210287122770&search_type=page&media_type=all"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Eccomerce Form",
+      "_postman_id": "2a33cc0b-945d-4de0-affb-4977bbb81666",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}api/v1/faceBookAd/form?link=https://ecomhub.com/partner-with-us&name=John&email=abc@gmail.com",
+          "host": [
+            "{{url}}api"
+          ],
+          "path": [
+            "v1",
+            "faceBookAd",
+            "form"
+          ],
+          "query": [
+            {
+              "key": "link",
+              "value": "https://ecomhub.com/partner-with-us",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "John",
+              "type": "text"
+            },
+            {
+              "key": "email",
+              "value": "abc@gmail.com",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Face",
+      "_postman_id": "fae5a69d-d9ca-4601-a4c4-d1fe09e33692",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "authority",
+            "value": "www.facebook.com"
+          },
+          {
+            "key": "pragma",
+            "value": "no-cache"
+          },
+          {
+            "key": "cache-control",
+            "value": "no-cache"
+          },
+          {
+            "key": "x-fb-lsd",
+            "value": "AVqbxaAxfxM"
+          },
+          {
+            "key": "viewport-width",
+            "value": "1062"
+          },
+          {
+            "key": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "key": "user-agent",
+            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"
+          },
+          {
+            "key": "sec-ch-ua",
+            "value": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\""
+          },
+          {
+            "key": "sec-ch-ua-platform",
+            "value": "\"Windows\""
+          },
+          {
+            "key": "content-type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "key": "accept",
+            "value": "*/*"
+          },
+          {
+            "key": "origin",
+            "value": "https://www.facebook.com"
+          },
+          {
+            "key": "sec-fetch-site",
+            "value": "same-origin"
+          },
+          {
+            "key": "sec-fetch-mode",
+            "value": "cors"
+          },
+          {
+            "key": "sec-fetch-dest",
+            "value": "empty"
+          },
+          {
+            "key": "referer",
+            "value": "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=US&view_all_page_id=2262210287122770&search_type=page&media_type=all"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "key": "cookie",
+            "value": "datr=VtqtYdxzncITnkRUFlPKBqlo; sb=UQuvYa67_bfD0nUFW9wVVp_G; usida=eyJ2ZXIiOjEsImlkIjoiQXI0MXBpZTFpZ2Nzam4iLCJ0aW1lIjoxNjM5Mzg0OTM0fQ%3D%3D; _fbp=fb.1.1639632674102.1418759187; locale=en_GB; dpr=1; fr=0pbWUoucFs72APMzI.AWVRUpkQkJ7uQ2RnJOAVi8niIbw.BhpK8e.9Y.AAA.0.0.BhvClf.AWUk3vAjFW0; wd=1062x937"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "type": "text",
+              "key": "__user",
+              "value": "0"
+            },
+            {
+              "type": "text",
+              "key": "__a",
+              "value": "1"
+            },
+            {
+              "type": "text",
+              "key": "__dyn",
+              "value": "7xeUmBz8fXgydwn8K2WnFwRwCwgE98nwgU6C4UKewSAwHxW4E7SezobohwVwgU2lwUx60Vo1upEK12wcG0KEswIwuo662y11xmfz81sbzo5-1ywXwsU9k2C2218wc61uBxi2a48O0zE-7E5i3e4U3mxOu2S2W2K7o721uwa-58G2q0gq2S3qazo11E"
+            },
+            {
+              "type": "text",
+              "key": "__csr",
+              "value": ""
+            },
+            {
+              "type": "text",
+              "key": "__req",
+              "value": "5"
+            },
+            {
+              "type": "text",
+              "key": "__hs",
+              "value": "18978.BP:DEFAULT.2.0.0.0."
+            },
+            {
+              "type": "text",
+              "key": "dpr",
+              "value": "1"
+            },
+            {
+              "type": "text",
+              "key": "__ccg",
+              "value": "EXCELLENT"
+            },
+            {
+              "type": "text",
+              "key": "__rev",
+              "value": "1004885452"
+            },
+            {
+              "type": "text",
+              "key": "__s",
+              "value": "v5e1zy:pctx4o:6b4lee"
+            },
+            {
+              "type": "text",
+              "key": "__hsi",
+              "value": "7042561633556144849-0"
+            },
+            {
+              "type": "text",
+              "key": "__comet_req",
+              "value": "0"
+            },
+            {
+              "type": "text",
+              "key": "lsd",
+              "value": "AVqbxaAxfxM"
+            },
+            {
+              "type": "text",
+              "key": "jazoest",
+              "value": "21063"
+            },
+            {
+              "type": "text",
+              "key": "__spin_r",
+              "value": "1004885452"
+            },
+            {
+              "type": "text",
+              "key": "__spin_b",
+              "value": "trunk"
+            },
+            {
+              "type": "text",
+              "key": "__spin_t",
+              "value": "1639724158"
+            },
+            {
+              "type": "text",
+              "key": "__jssesw",
+              "value": "1"
+            }
+          ],
+          "options": {
+            "urlencoded": {}
+          }
+        },
+        "url": {
+          "raw": "https://www.facebook.com/ads/library/async/search_ads/?forward_cursor=AQHRWM5IzyUKbnkVvzVz-hlifrpHso4xfgNwH9wx31k3WivN4vPbweutyjm2xo3q0X-M&session_id=a3cf2515-7c6b-4357-81ea-ff94f3d7b4d0&collation_token=9f9584ec-12b7-477b-9aec-ec9a5beca055&count=15&active_status=all&ad_type=all&countries\\[0\\]=US&view_all_page_id=2262210287122770&media_type=all&search_type=page",
+          "protocol": "https",
+          "host": [
+            "www",
+            "facebook",
+            "com"
+          ],
+          "path": [
+            "ads",
+            "library",
+            "async",
+            "search_ads",
+            ""
+          ],
+          "query": [
+            {
+              "key": "forward_cursor",
+              "value": "AQHRWM5IzyUKbnkVvzVz-hlifrpHso4xfgNwH9wx31k3WivN4vPbweutyjm2xo3q0X-M"
+            },
+            {
+              "key": "session_id",
+              "value": "a3cf2515-7c6b-4357-81ea-ff94f3d7b4d0"
+            },
+            {
+              "key": "collation_token",
+              "value": "9f9584ec-12b7-477b-9aec-ec9a5beca055"
+            },
+            {
+              "key": "count",
+              "value": "15"
+            },
+            {
+              "key": "active_status",
+              "value": "all"
+            },
+            {
+              "key": "ad_type",
+              "value": "all"
+            },
+            {
+              "key": "countries\\[0\\]",
+              "value": "US"
+            },
+            {
+              "key": "view_all_page_id",
+              "value": "2262210287122770"
+            },
+            {
+              "key": "media_type",
+              "value": "all"
+            },
+            {
+              "key": "search_type",
+              "value": "page"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
