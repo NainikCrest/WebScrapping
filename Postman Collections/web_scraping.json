@@ -7,7 +7,7 @@
   "item": [
     {
       "name": "FaceBook ADS list",
-      "_postman_id": "aac9bc92-7778-4841-a181-a5a1da4f6b16",
+      "id": "aac9bc92-7778-4841-a181-a5a1da4f6b16",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
       },
@@ -27,7 +27,7 @@
           "query": [
             {
               "key": "link",
-              "value": "https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=US&view_all_page_id=2262210287122770&search_type=page&media_type=all"
+              "value": "https://www.facebook.com/ads/library/?active_status=all%26ad_type=all%26country=US%26view_all_page_id=2262210287122770%26search_type=page%26media_type=all"
             }
           ]
         }
@@ -36,7 +36,7 @@
     },
     {
       "name": "Eccomerce Form",
-      "_postman_id": "2a33cc0b-945d-4de0-affb-4977bbb81666",
+      "id": "2a33cc0b-945d-4de0-affb-4977bbb81666",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
       },
@@ -76,7 +76,7 @@
     },
     {
       "name": "Face",
-      "_postman_id": "fae5a69d-d9ca-4601-a4c4-d1fe09e33692",
+      "id": "fae5a69d-d9ca-4601-a4c4-d1fe09e33692",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
       },
@@ -249,10 +249,7 @@
               "key": "__jssesw",
               "value": "1"
             }
-          ],
-          "options": {
-            "urlencoded": {}
-          }
+          ]
         },
         "url": {
           "raw": "https://www.facebook.com/ads/library/async/search_ads/?forward_cursor=AQHRWM5IzyUKbnkVvzVz-hlifrpHso4xfgNwH9wx31k3WivN4vPbweutyjm2xo3q0X-M&session_id=a3cf2515-7c6b-4357-81ea-ff94f3d7b4d0&collation_token=9f9584ec-12b7-477b-9aec-ec9a5beca055&count=15&active_status=all&ad_type=all&countries\\[0\\]=US&view_all_page_id=2262210287122770&media_type=all&search_type=page",
