@@ -1,5 +1,5 @@
 const app = require("express").Router();
-const controller = require("../controllers/faceBookAd");
+const controller = require("../controllers/faceBookAdtemp");
 
 /**
  * @Route -> Initial FaceBook links

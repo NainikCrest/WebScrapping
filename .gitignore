@@ -1,6 +1,9 @@
 # dependencies
 /node_modules
 
+# caches
+/cache
+
 #dist folder
 /dist
 
