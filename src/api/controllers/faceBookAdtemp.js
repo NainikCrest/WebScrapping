@@ -13,7 +13,6 @@ const getHost = () => {
 };
 
 async function autoScroll(page) {
-  console.log("CCCCCCCCCCCCC")
   await page.evaluate(async () => {
     await new Promise((resolve, reject) => {
       var totalHeight = 0;
@@ -52,7 +51,7 @@ exports.faceBookAd = async (req, res, next) => {
       headless, // Whether to run browser in headless mode. Defaults to true unless the devtools option is trues
       timeout: 0, // Maximum time in milliseconds to wait for the browser instance to start. Defaults to 30000 (30 seconds). Pass 0 to disable timeout.
       defaultViewport: false, // To set screen size in launch
-      // userDataDir: "./cache", // To download the caches
+      userDataDir: "./cache", // To download the caches
       executablePath:
         // "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
         "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", // To execute the link in given path instead of chromiun as default,
@@ -100,7 +99,6 @@ exports.faceBookAd = async (req, res, next) => {
 
     const ADList = []
     for (let index = 0; index < productHandlers.length; index++) {
-      console.log("DDDDDDDDDDDDD")
       const element = productHandlers[index];
 
       let title, ADHandlers = [];
@@ -127,7 +125,7 @@ exports.faceBookAd = async (req, res, next) => {
       for (let indexJ = 0; indexJ < ADHandlers.length; indexJ++) {
         const ADelement = ADHandlers[indexJ];
 
-        let status, id, start_running, multiple_version, ADObj = {};
+        let status, id, start_running, multiple_version, video_url, form_url, ADObj = {};
 
         // Getting AD status
         try {
@@ -153,6 +151,19 @@ exports.faceBookAd = async (req, res, next) => {
             });
         } catch (error) { multiple_version = null; }
 
+        try {
+          video_url = await ADelement.$eval(
+            "div._8o0a._8o0b > video", (node) => {
+              return node.src;
+            });
+        } catch (error) { video_url = null; }
+
+        try {
+          form_url = await ADelement.$eval(
+            "a.d5rc5kzv.chuaj5k6.qku1pbnj.j8otv06s.a1itoznt.fvlrrmdj.svz86pwt.aa8h9o0m.jrvjs1jy.jrkk970q", (node) => {
+              return node.href;
+            });
+        } catch (error) { form_url = null; }
         // try {
         //   await ADelement.$eval(
         //     "div.tb4cuiq2.kojzg8i3.rwb8dzxj.yukb02kx.duy2mlcu.dcpru2rv.sdif6bng.dhycqfdu > div", (node) => {
@@ -182,6 +193,8 @@ exports.faceBookAd = async (req, res, next) => {
         ADObj.status = status;
         ADObj.id = id;
         ADObj.multiple_version = multiple_version;
+        ADObj.video_url = video_url;
+        ADObj.form_url = form_url;
         SubADList.push({ ...ADObj });
 
         // .g8i8uhsi.a9l0cfhd.itch7skr.k8ssb1ca.apr27be3.elum7zft.booyz79o.e7jxmo73.fg06um2h.sxkbt2j3.pty309aw.pesago7c.b6ewvobd.qi2u98y8.ol91lf0t.pg3nr1hp.gp6ucdfj.n6ukeyzl

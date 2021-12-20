@@ -3,6 +3,8 @@ const puppeteer = require("puppeteer");
 const headless = false; // Wether to open the URL in browser or Notification
 
 const serversList = require("../../helpers/servers");
+const { autoScroll } = require("../../helpers/utils");
+
 let si = 0;
 const getHost = () => {
   si++;
@@ -21,20 +23,21 @@ const getHost = () => {
  * @apiVersion 1.0.0 (/api/v1/)
  */
 exports.faceBookAd = async (req, res, next) => {
+
   try {
     //  Browser Configuration to launch site
     // const tempHost = getHost();
     // console.log(tempHost);
     const browser = await puppeteer.launch({
-      // pipe: true, // Connects to the browser over a pipe instead of a WebSocket. Defaults to false
+      pipe: true, // Connects to the browser over a pipe instead of a WebSocket. Defaults to false
       devtools: false, // Whether to auto-open a DevTools panel for each tab. If this option is true, the headless option will be set false
       headless, // Whether to run browser in headless mode. Defaults to true unless the devtools option is trues
       timeout: 0, // Maximum time in milliseconds to wait for the browser instance to start. Defaults to 30000 (30 seconds). Pass 0 to disable timeout.
       defaultViewport: false, // To set screen size in launch
       userDataDir: "./cache", // To download the caches
-      executablePath:
-        // "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
-        "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", // To execute the link in given path instead of chromiun as default,
+      // executablePath:
+      //   // "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      //   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", // To execute the link in given path instead of chromiun as default,
       // Path to a browser executable to run instead of the bundled Chromium.
       args: [
         "--start-maximized",
@@ -58,7 +61,7 @@ exports.faceBookAd = async (req, res, next) => {
     // URL to navigate page to.
     await page.goto(req.query.link, {
       timeout: 0, // Maximum navigation time in milliseconds, defaults to 30 seconds, pass 0 to disable timeout.
-      waitUntil: ["networkidle0", "load"], // <"load"|"domcontentloaded"|"networkidle0"|"networkidle2"|Array>
+      waitUntil: ["networkidle0", "load", "networkidle2", "domcontentloaded"], // <"load"|"domcontentloaded"|"networkidle0"|"networkidle2"|Array>
     });
 
     // Enabling request interception disables page caching.
@@ -72,61 +75,111 @@ exports.faceBookAd = async (req, res, next) => {
       else interceptedRequest.continue();
     });
 
+    await autoScroll(page)
     // Wrapping/Finding up the AD Element
     const productHandlers = await page.$$(
-      "._8n-x > div._8n_0 > div._9ccv._9raa"
-    );
+      "._9ccv._9raa", options => options.map(option => option.innerHTML));
 
-    const ADList = [];
-    // Looping through all AD's Element Group
-    for (let indexP = 0; indexP < productHandlers.length; indexP++) {
-      const producthandle = productHandlers[indexP];
-      let title = null;
-      const tempObj = {};
+    const ADList = []
+    for (let index = 0; index < productHandlers.length; index++) {
+      const element = productHandlers[index];
+
+      let title, ADHandlers = [];
+      let tempObj = {};
+
+      // Fetching Title for AD's year
       try {
-        // Function to be evaluated in the page context
-        title = await page.evaluate(
-          (el) =>
-            el.querySelector(
-              "div > div._9ccv._9raa > div > div._9guv._9rab > div > div > span"
-            ).textContent,
-          producthandle
-        );
-        tempObj.title = title;
+        title = await element.$eval(
+          ".qku1pbnj.bnyswc7j.dnfrlon8.ga2uhi05.t486r87n.svz86pwt.aa8h9o0m.a53abz89", (node) => {
+            return node.innerText;
+          });
+      } catch (error) { title = null; }
 
-        // The method runs document.querySelectorAll within the page. If no elements match the selector, the return value resolves to []
-        const contentHandlers = await page.$$("div > div._9cb_", producthandle);
-        const contentArr = [];
-        const element = contentHandlers[indexP];
-        let ids = [];
-        let status = [];
+      // Fetching AD according to year
+      try {
+        ADHandlers = await element.$$(
+          "._9b9p._99s6", options => options.map(option => option.innerHTML));
+      } catch (error) { ADHandlers = []; }
+
+
+      let SubADList = [];
+
+      // Iterating AD according to year
+      for (let indexJ = 0; indexJ < ADHandlers.length; indexJ++) {
+        const ADelement = ADHandlers[indexJ];
+
+        let status, id, start_running, multiple_version, ad_uses, video_url, form_url, html_details, ADObj = {};
+
+        // Getting AD status
         try {
-          // This method runs document.querySelectorAll within the element and passes it as the first argument to pageFunction. If there's no element matching selector, the method throws an error.
-          ids = await element.$$eval(
-            "div > div > div.jdijf8jp.i0ppjblf.jvozsxb1.mqteepqw.b8ykynyv.egkesoaz.qi2u98y8 > div > div.a53abz89.rgsc13q7.rwb8dzxj.hv94jbsx > div > div.o0aczdgd > div > span",
-            (idsEle) => {
-              return idsEle.map((idEl) => idEl.textContent);
-            }
-          );
-        } catch (error) { }
+          status = await ADelement.$eval(
+            ".qku1pbnj.jdeypxg0.gr1kmz5o.and5a8ls.te7ihjl9.svz86pwt.a53abz89.nxqif72j", (node) => {
+              return node.innerText;
+            });
+        } catch (error) { status = null; }
+
+        // Getting AD id
         try {
-          status = await element.$$eval(
-            "div > div > div.jdijf8jp.i0ppjblf.jvozsxb1.mqteepqw.b8ykynyv.egkesoaz.qi2u98y8 > div > div.a53abz89.rgsc13q7.rwb8dzxj.hv94jbsx > div > span.qku1pbnj.jdeypxg0.gr1kmz5o.and5a8ls.te7ihjl9.svz86pwt.a53abz89.nxqif72j",
-            (statusEle) => {
-              return statusEle.map((statusEl) => statusEl.textContent);
-            }
-          );
-        } catch (error) { }
-        for (let index = 0; index < ids.length; index++) {
-          const element = ids[index];
-          const content = {
-            id: element.split(" ")[1], status: status[index]
-          };
-          contentArr.push(content);
-        }
-        tempObj.content = contentArr;
-        ADList.push({ ...tempObj });
-      } catch (error) { }
+          id = await ADelement.$eval(
+            "div.rxo4gu2c.fij28k4b > .qku1pbnj.jdeypxg0.gr1kmz5o.and5a8ls.te7ihjl9.svz86pwt.a53abz89", (node) => {
+              return node.innerText.split(" ")[1];
+            });
+        } catch (error) { id = null; }
+
+        // Getting AD support multiple version text 
+        try {
+          multiple_version = await ADelement.$eval(
+            "div.m8urbbhe.fv962s72 > span.i0ppjblf.c7hevu8o > span.qku1pbnj.jdeypxg0.gr1kmz5o.and5a8ls.te7ihjl9.svz86pwt.a53abz89", (node) => {
+              return node.innerText;
+            });
+        } catch (error) { multiple_version = null; }
+
+        // Getting AD support multiple version text 
+        try {
+          ad_uses = await ADelement.$eval(
+            "div._9b9y > span.qku1pbnj.j8otv06s.r05nras9.a1itoznt.te7ihjl9.svz86pwt.a53abz89", (node) => {
+              return node.innerText;
+            });
+        } catch (error) { ad_uses = null; }
+
+        // Getting AD Video URL
+        try {
+          video_url = await ADelement.$eval(
+            "div._8o0a._8o0b > video", (node) => {
+              return node.src;
+            });
+        } catch (error) { video_url = null; }
+
+        // Getting AD FORM URL
+        try {
+          form_url = await ADelement.$eval(
+            "a.d5rc5kzv.chuaj5k6.qku1pbnj.j8otv06s.a1itoznt.fvlrrmdj.svz86pwt.aa8h9o0m.jrvjs1jy.jrkk970q", (node) => {
+              return node.href;
+            });
+        } catch (error) { form_url = null; }
+
+        // Getting AD HTML Details
+        try {
+          html_details = await ADelement.$eval(
+            "div._7jyr._a25- > span > div > div._4ik4._4ik5", (node) => {
+              return node.innerHTML;
+            });
+        } catch (error) { html_details = null; }
+
+        ADObj.status = status;
+        ADObj.id = id;
+        ADObj.multiple_version = multiple_version;
+        ADObj.ad_uses = ad_uses;
+        ADObj.video_url = video_url;
+        ADObj.form_url = form_url;
+        ADObj.html_details = html_details;
+        SubADList.push({ ...ADObj });
+
+      }
+
+      tempObj.title = title;
+      tempObj.SubADList = SubADList;
+      ADList.push({ ...tempObj });
     }
 
     await page.screenshot({
@@ -135,8 +188,8 @@ exports.faceBookAd = async (req, res, next) => {
       fullPage: true, // When true, takes a screenshot of the full scrollable page. Defaults to false.
     });
 
-    // await page.emulateMediaType("screen");
-    // await page.pdf({ path: "page.pdf" });
+    await page.emulateMediaType("screen");
+    if (headless) await page.pdf({ path: "page.pdf" });
     if (headless) await page.pdf({ path: "capture.pdf", format: "A0" });
 
     await browser.close();
