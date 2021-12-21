@@ -248,3 +248,40 @@ async function app() {
 }
 
 app();
+
+
+
+        // const page2 = await browser.newPage();
+
+        // await Promise.all([
+        //   page2.goto(form_url, {
+        //     timeout: 0, // Maximum navigation time in milliseconds, defaults to 30 seconds, pass 0 to disable timeout.
+        //     waitUntil: ["networkidle0", "load", "networkidle2", "domcontentloaded"], // <"load"|"domcontentloaded"|"networkidle0"|"networkidle2"|Array>
+        //   }),       // go to github.com 
+        //   page2.bringToFront()
+        // ]);
+
+
+        // await page2.screenshot({
+        //   path: "Form.png",
+        //   fullPage: true,
+        // });
+        // await page2.type("#fullname", req.query.name, { delay: 100 });
+        // await page2.type("#email", req.query.email, { delay: 100 });
+
+        // await page2.screenshot({
+        //   path: "FormFill.png",
+        //   fullPage: true,
+        // });
+
+        // await Promise.all([
+        //   page2.waitForNavigation(),
+        //   page2.click("#_form_5_submit"),
+        // ]);
+
+        // await page2.screenshot({
+        //   path: "FormResult.png",
+        //   fullPage: true,
+        // });
+
+        // await Promise.all([await page2.close()]);

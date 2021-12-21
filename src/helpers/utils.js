@@ -14,6 +14,7 @@
  */
 
 const APIError = require("./apiError");
+const { Cluster } = require('puppeteer-cluster');
 const { BAD_REQUEST, DUPLICATE_ERROR } = require("./constants");
 
 exports.checkDuplication = async (data, model) => {
@@ -54,4 +55,67 @@ exports.autoScroll = async (page) => {
       }, 100);
     });
   });
+}
+
+
+exports.clusterForm = async (urls) => {
+  const resList = [];
+  const cluster = await Cluster.launch({
+    concurrency: Cluster.CONCURRENCY_CONTEXT,
+    maxConcurrency: 100,
+    monitor: true,
+    puppeteerOptions: {
+      // pipe: true, // Connects to the browser over a pipe instead of a WebSocket. Defaults to false
+      devtools: false, // Whether to auto-open a DevTools panel for each tab. If this option is true, the headless option will be set false
+      headless: false, // Whether to run browser in headless mode. Defaults to true unless the devtools option is trues
+      timeout: 0, // Maximum time in milliseconds to wait for the browser instance to start. Defaults to 30000 (30 seconds). Pass 0 to disable timeout.
+      defaultViewport: false, // To set screen size in launch
+      userDataDir: "./cache", // To download the caches
+      // executablePath:
+      //   // "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      //   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", // To execute the link in given path instead of chromiun as default,
+      // Path to a browser executable to run instead of the bundled Chromium.
+      // args: [
+      //   "--start-maximized",
+      //   // `--proxy-server=${tempHost.host}:${tempHost.port}`,
+      //   "--no-sandbox",
+      //   "--disable-setuid-sandbox",
+      //   "--disable-dev-shm-usage",
+      //   "--disable-gpu",
+      // ], // Additional arguments to pass to the browser instance
+    }
+  });
+
+  cluster.on('taskerror', (err, data) => {
+    console.log(`Error crawling ${data}: ${err.message}`);
+  });
+
+  await cluster.task(async ({ page, data: url }) => {
+    await page.goto(url, {
+      timeout: 0, // Maximum navigation time in milliseconds, defaults to 30 seconds, pass 0 to disable timeout.
+      waitUntil: ["networkidle0", "load", "networkidle2", "domcontentloaded"], // <"load"|"domcontentloaded"|"networkidle0"|"networkidle2"|Array>
+    });
+
+    await page.type("#fullname", req.query.name, { delay: 100 });
+    await page.type("#email", req.query.email, { delay: 100 });
+
+    await Promise.all([
+      page.waitForNavigation({
+        waitUntil: "load",
+        timeout: 0
+      }),
+      page.click("#_form_5_submit"),
+    ]);
+
+    // await page.screenshot({
+    //   path: "FormResult.png",
+    //   fullPage: true,
+    // });
+    resList.push("Success")
+
+    // await Promise.all([await page.close()]);
+  });
+  for (const url of urls) {
+    cluster.queue(url);
+  }
 }
