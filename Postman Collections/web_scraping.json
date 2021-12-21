@@ -15,7 +15,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{url}}api/v1/faceBookAd/?link=https://www.facebook.com/ads/library/?active_status=all%26ad_type=all%26country=US%26view_all_page_id=2262210287122770%26search_type=page%26media_type=all",
+          "raw": "{{url}}api/v1/faceBookAd/?link=https://www.facebook.com/ads/library/?active_status=all%26ad_type=all%26country=US%26view_all_page_id=2262210287122770%26search_type=page%26media_type=all&form_count=1&name=Any&email=A@a.com",
           "host": [
             "{{url}}api"
           ],
@@ -28,6 +28,18 @@
             {
               "key": "link",
               "value": "https://www.facebook.com/ads/library/?active_status=all%26ad_type=all%26country=US%26view_all_page_id=2262210287122770%26search_type=page%26media_type=all"
+            },
+            {
+              "key": "form_count",
+              "value": "1"
+            },
+            {
+              "key": "name",
+              "value": "Any"
+            },
+            {
+              "key": "email",
+              "value": "A@a.com"
             }
           ]
         }
