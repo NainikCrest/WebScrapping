@@ -16,6 +16,7 @@
 const APIError = require("./apiError");
 const { Cluster } = require('puppeteer-cluster');
 const { BAD_REQUEST, DUPLICATE_ERROR } = require("./constants");
+const fs = require('fs');
 
 exports.checkDuplication = async (data, model) => {
   if (data.name === "SequelizeUniqueConstraintError") {
@@ -36,6 +37,26 @@ exports.omitter = (keys, obj) => {
   if (!keys.length) return obj;
   const { [keys.pop()]: omitted, ...rest } = obj;
   return this.omitter(keys, rest);
+};
+
+exports.slugifyURL = (URL) => {
+  return URL.replace(/[\/:?&]/g, '_');
+};
+
+exports.createDirSync = (dirPath) => {
+  try {
+    dirPath.split('/').reduce((parentPath, dirName) => {
+      const currentPath = parentPath + dirName;
+      if (!fs.existsSync(currentPath)) {
+        fs.mkdirSync(currentPath);
+      }
+      return currentPath + '/';
+    }, '');
+  } catch (err) {
+    if (err.code !== 'EEXIST') {
+      throw err;
+    }
+  }
 };
 
 exports.autoScroll = async (page) => {

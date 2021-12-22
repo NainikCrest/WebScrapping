@@ -6,6 +6,7 @@
 
 #dist folder
 /dist
+/crawlSite
 
 
 # Optional npm cache directory

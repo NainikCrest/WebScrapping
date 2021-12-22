@@ -31,6 +31,7 @@ const MorganProd = {
 module.exports = {
   env: process.env.NODE_ENV,
   port: process.env.PORT,
+  crawlDir: process.env.DIR_NAME,
   Level: process.env.NODE_ENV === "development" ? "debug" : "error", // logging priority for development & production
   logType: process.env.NODE_ENV === "development" ? "dev" : "combined", // Morgan logger for development & production
   morganConfig: process.env.NODE_ENV === "development" ? {} : MorganProd, // Morgan Config for development & production
